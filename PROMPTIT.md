@@ -431,3 +431,47 @@ Validoinnit nyt: aloitusaika ennen lopetusaikaa; varaus ei ala menneisyydessä; 
 Muutokset rajoittuvat: vain routes.ts — muita toiminnallisuuksia tai rakennetta en muuttanut.
 Testaus / seuraava: yritin käynnistää dev-palvelimen, mutta portti 3000 on varattu (EADDRINUSE). Vapauta portti tai käytä eri porttia, esim.:
 Haluatko, että muutan palvelimen portin ympäristömuuttujaksi tai autan löytämään prosessin, joka käyttää porttia?
+
+# 5. Prompt
+
+Paranna API:n virheenkäsittelyä ja HTTP-statuskoodeja.
+
+Vaatimukset:
+
+Käytä tarkoituksenmukaisia HTTP-statuskoodeja (400, 404, 409, 201)
+
+Palauta virhetilanteissa selkeä JSON-muotoinen virhevastaus
+
+Varmista, ettei yksittäinen virhe kaada koko palvelinta
+
+Älä muuta liiketoimintalogiikkaa tai tee laajaa refaktorointia.
+
+# 5. Vastaus
+
+I'll list the planned steps (todo), then inspect the current source files to determine minimal edits for improved error handling.
+
+Created 4 todos
+
+Now I'll read current source files to find where to add error handling.
+
+I'll apply a small set of patches: add HttpError, asyncHandler, error middleware, and update routes.ts and index.ts to use them. This keeps business logic unchanged while centralizing JSON error responses.
+
+Edited
+httpError.ts+9-1
+Edited
+asyncHandler.ts+15-1
+Edited
+errorHandler.ts+17-1
+Edited
+index.ts+8-0
+Edited
+routes.ts+73-56
+Updating the todo list to mark implemented tasks as completed and the final check as not-started.
+
+Tein pienen päivityksen: lisäsin keskitetyn JSON-virheenkäsittelyn, pienen async-wrapperin ja päivitin reitit välittämään virheet middlewarelle — liiketoimintalogiikka säilyy ennallaan.
+
+Muokatut tiedostot: routes.ts, index.ts
+Uudet tiedostot: errorHandler.ts, httpError.ts, asyncHandler.ts
+Mitä muuttui: DB-virheet ja odottamattomat poikkeukset välitetään HttpError-objekteina tai next(err) kautta keskitetylle errorHandler-middlewarelle, joka palauttaa aina JSONin muodossa: { "error": { "message": "...", "status": 400|404|409|500 } }. Reitit käyttävät edelleen samoja HTTP-koodeja (400, 404, 409, 201, 204) mutta virheet eivät enää kaada koko palvelinta.
+Haluatko, että käynnistän palvelimen tässä ympäristössä ja testaan muutaman päätepisteen? Jos haluat testata itse, aja ensin:
+
