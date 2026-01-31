@@ -394,3 +394,40 @@ Käynnistä dev-server:
 ```npm run dev```
 
 Haluatko, että käynnistän palvelimen tässä ympäristössä ja testaan muutamia päällekkäisyystapauksia automaattisesti?
+
+# 4. Prompt
+
+Lisää aikavalidointi varauksen luontiin.
+
+Vaatimukset:
+
+Aloitusajan täytyy olla ennen lopetusaikaa
+
+Varaus ei saa alkaa menneisyydessä
+
+Virheellisissä tapauksissa palauta HTTP 400 ja selkeä virheviesti
+
+Älä muuta muita toiminnallisuuksia tai rakennetta.
+
+# 4. Vastaus
+
+Aion tarkistaa reitit ja palvelimen lähdekoodin löytääkseni varauksen luontikohdan ja lisätä validoinnin. Nyt luen relevantit tiedostot.
+
+Now I'll open index.ts and db.ts to confirm API wiring.
+
+Seuraavaksi päivitän routes.ts: lisään tarkistuksen, että annetut ajat ovat kelvollisia Date-arvoja. Tämä palauttaa HTTP 400 selkeällä virheilmoituksella virhetilanteissa.
+
+Read package.json
+
+Edited
+routes.ts+4-0
+Päivitän TODO-listan: merkitsen löydön valmiiksi ja validoinnin tehdyksi. Sitten aion käynnistää dev-palvelimen nopeaan tarkistukseen.
+
+Starting: Run tests / basic startup (3/3)
+
+npm run dev
+Muutos: Päivitin routes.ts — lisäsin tarkistuksen, että startTime ja endTime ovat kelvollisia Date-arvoja; palautan HTTP 400 viestillä "Invalid startTime or endTime" jos eivät ole.
+Validoinnit nyt: aloitusaika ennen lopetusaikaa; varaus ei ala menneisyydessä; virhetilanteissa HTTP 400 ja selkeä viesti.
+Muutokset rajoittuvat: vain routes.ts — muita toiminnallisuuksia tai rakennetta en muuttanut.
+Testaus / seuraava: yritin käynnistää dev-palvelimen, mutta portti 3000 on varattu (EADDRINUSE). Vapauta portti tai käytä eri porttia, esim.:
+Haluatko, että muutan palvelimen portin ympäristömuuttujaksi tai autan löytämään prosessin, joka käyttää porttia?

@@ -14,6 +14,10 @@ router.post("/bookings", (req, res) => {
   const end = new Date(endTime);
   const now = new Date();
 
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return res.status(400).json({ error: "Invalid startTime or endTime" });
+  }
+
   if (start >= end) {
     return res.status(400).json({ error: "Start time must be before end time" });
   }
