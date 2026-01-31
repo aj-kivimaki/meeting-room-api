@@ -475,3 +475,54 @@ Uudet tiedostot: errorHandler.ts, httpError.ts, asyncHandler.ts
 Mitä muuttui: DB-virheet ja odottamattomat poikkeukset välitetään HttpError-objekteina tai next(err) kautta keskitetylle errorHandler-middlewarelle, joka palauttaa aina JSONin muodossa: { "error": { "message": "...", "status": 400|404|409|500 } }. Reitit käyttävät edelleen samoja HTTP-koodeja (400, 404, 409, 201, 204) mutta virheet eivät enää kaada koko palvelinta.
 Haluatko, että käynnistän palvelimen tässä ympäristössä ja testaan muutaman päätepisteen? Jos haluat testata itse, aja ensin:
 
+# 6. Prompt
+
+Lisää yksinkertaiset integraatiotestit API:lle.
+
+Testaa ainakin seuraavat tapaukset:
+
+Onnistunut varauksen luonti
+
+Päällekkäisen varauksen estäminen (HTTP 409)
+
+Virheellinen aikaväli (start ≥ end, HTTP 400)
+
+Varaus menneisyyteen (HTTP 400)
+
+Käytä kevyttä testiratkaisua (esim. Jest + Supertest).
+Testien ei tarvitse olla kattavia, vain liiketoimintasäännöt todentavia.
+
+# 6. Vastaus
+
+Next I'll add a short TODO plan for the work (Jest + Supertest, tests, and minimal server export). I'll create the plan now.
+
+I'll inspect package.json, index.ts, and routes.ts to see how the server is structured.
+
+Now I'll apply code changes: export app, switch DB to in-memory during tests, add Jest/Supertest dependencies and scripts, add Jest config, and add integration tests.
+
+Edited
+package.json+8-2
+Edited
+app.ts+13-1
+Edited
+index.ts+1-10
+Edited
+db.ts+3-1
+Edited
+jest.config.js+6-1
+Edited
+integration.test.ts+64-1
+Now I'll install dev dependencies and run the test suite locally (npm install then npm test). This verifies the tests.
+
+npm install
+npm test --silent
+Progress: tests added and all 4 integration tests passed.
+
+What's changed
+
+Files updated: package.json — added test script and devDependencies for Jest/ts-jest/Supertest.
+Files added: app.ts, jest.config.js, integration.test.ts.
+Files modified: index.ts — now only starts the server; db.ts — uses in-memory DB when NODE_ENV=test.
+Next steps
+
+Would you like me to commit these changes?
