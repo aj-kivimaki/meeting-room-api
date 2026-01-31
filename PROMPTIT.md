@@ -344,3 +344,53 @@ tehdä tästä Docker-version
 tai siistiä koodin “tehtävän palautus -lookiin” (kommentit + perustelut)
 
 Sano vain 💪
+
+---
+
+> Tiedoksi: Käytin ChatGPT:tä tähänastisiin prompteihin. Tästä eteenpäin käytän VSCoden Chat-Agenttia (GPT-5 mini) apuna koodin korjaamiseen.
+
+---
+
+# 3. Prompt
+
+Korjaa varausten päällekkäisyyden tarkistuslogiikka.
+
+Vaatimus:
+
+- Kaksi varausta samassa huoneessa eivät saa mennä päällekkäin millään tavalla
+
+- Päällekkäisyydeksi lasketaan myös tapaukset, joissa uusi varaus:
+
+  - alkaa ennen olemassa olevaa ja päättyy sen aikana
+
+  - alkaa olemassa olevan aikana ja päättyy sen jälkeen
+
+  - ympäröi olemassa olevan varauksen kokonaan
+
+  - on täsmälleen sama aikaväli
+
+Älä muuta muita toiminnallisuuksia tai tee laajaa refaktorointia.
+
+# 3. Vastaus
+
+I'll add a short TODO plan, then inspect the files where reservation overlap is implemented.
+
+Next I'll open db.ts to check database schema and types.
+
+I'll patch routes.ts to use an explicit overlap condition and add basic DB error handling.
+
+Edited
+routes.ts+9-3
+Now I'll show a short summary of changes and give commands to run the server.
+
+Read package.json
+
+Toteutus: Päivitetty päällekkäisyystarkistus SQL-ehtoon startTime < newEnd AND endTime > newStart ja lisätty perustason tietokantavirhekäsittely.
+Tiedosto: routes.ts
+Miksi: Ehto kattaa kaikki pyytämäsi tapaukset (alkaa ennen ja loppuu kesken, alkaa kesken ja loppuu jälkeen, ympäröi, täsmälleen sama aikaväli) ilman laajoja refaktorointeja.
+Seuraava: Käynnistä kehityspalvelin ja testaa varauksen luomista päällekkäisillä ja ei-päällekkäisillä ajoilla.
+Käynnistä dev-server:
+
+```npm run dev```
+
+Haluatko, että käynnistän palvelimen tässä ympäristössä ja testaan muutamia päällekkäisyystapauksia automaattisesti?

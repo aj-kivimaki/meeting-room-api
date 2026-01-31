@@ -24,12 +24,17 @@ router.post("/bookings", (req, res) => {
 
   db.get(
     `
-    SELECT * FROM bookings
+    SELECT 1 FROM bookings
     WHERE room = ?
-      AND NOT (? >= endTime OR ? <= startTime)
+      AND startTime < ?
+      AND endTime > ?
     `,
-    [room, startTime, endTime],
+    [room, endTime, startTime],
     (err, row) => {
+      if (err) {
+        return res.status(500).json({ error: "Database error" });
+      }
+
       if (row) {
         return res.status(409).json({ error: "Booking overlaps existing booking" });
       }
